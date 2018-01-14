@@ -105,7 +105,8 @@ venv.bak/
 .mypy_cache/
 
 # PyCharm
-.idea*
+.idea/
+.DS_Store
 
 # Figures and videos
 *.png
