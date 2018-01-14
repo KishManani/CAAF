@@ -11,14 +11,16 @@ K Christensen, KA Manani, NS Peters, PRL 2016
 
 
 # Installation
+Install directly from the sourcecode:
 
-    git clone
+    python setup.py install
 
 # Quick start
 A default set of model parameters are set in main.py, the model can be run from
-the same file.
+the same file. Use the 'num_iters' parameter in the command line to set the number of iterations
+the model should run for. Set the 'plot' parameter to 1 to record the simulation in the figures subdirectory.
 
-    python main.py
+    python main.py --num_iters 100 --plot 1
 
 # Usage
 The model has been implemented as a class called Heart. Heart objects contain
