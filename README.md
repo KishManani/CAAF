@@ -16,7 +16,7 @@ Git clone to a local directory:
 
     git clone https://github.com/KishManani/CAAF.git
 
-Change to CAAF directory and install directly from the sourcecode:
+Change to CAAF directory and install directly from the source code:
 
     cd CAAF
     python setup.py install
