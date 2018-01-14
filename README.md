@@ -30,11 +30,13 @@ CAAF requires the following to run:
 
 
 # Quick start
-A simulation can be run conveniently form the command line. A default set of model parameters are set in main.py, the model can be run from
-the same file. Use the 'num_iters' parameter in the command line to set the number of iterations
-the model should run for. Set the 'plot' parameter to 1 to record the simulation in the figures subdirectory.
+A simulation can be run conveniently form the command line:
 
     python main.py --num_iters 100 --plot 1
+
+where the 'num_iters' parameter in the command line to set the number of iterations
+the model should run for. Set the 'plot' parameter to 1 to record the simulation
+as a .mp4 file in the figures subdirectory. A default set of model parameters are set in main.py.
 
 # Usage
 The model has been implemented as a class called Heart. Heart objects contain
