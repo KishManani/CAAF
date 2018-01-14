@@ -15,8 +15,16 @@ Install directly from the sourcecode:
 
     python setup.py install
 
+# Requirements
+CAAF requires the following to run:
+* [ffmpeg](https://www.ffmpeg.org/download.html)
+* numpy
+* matplotlib
+* numba
+
+
 # Quick start
-A default set of model parameters are set in main.py, the model can be run from
+A simulation can be run conveniently form the command line. A default set of model parameters are set in main.py, the model can be run from
 the same file. Use the 'num_iters' parameter in the command line to set the number of iterations
 the model should run for. Set the 'plot' parameter to 1 to record the simulation in the figures subdirectory.
 
