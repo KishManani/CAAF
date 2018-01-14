@@ -11,8 +11,14 @@ K Christensen, KA Manani, NS Peters, PRL 2016
 
 
 # Installation
-Install directly from the sourcecode:
 
+Git clone to a local directory:
+
+    git clone https://github.com/KishManani/CAAF.git
+
+Change to CAAF directory and install directly from the sourcecode:
+
+    cd CAAF
     python setup.py install
 
 # Requirements
