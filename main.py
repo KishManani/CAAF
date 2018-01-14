@@ -19,6 +19,7 @@ args = parser.parse_args()
 
 num_iters = args.num_iters
 plot = args.plot
+
 parameters = {'row_size': 200,
               'col_size': 200,
               'refractory_period': 50,
