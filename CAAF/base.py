@@ -20,10 +20,7 @@ class Base(object):
 
         # Parameters relating to dynamics of grid
         self.refractory_period = refractory_period
-        if driving_period is None:
-            self.driving_period = self.refractory_period * 2
-        else:
-            self.driving_period = driving_period
+        self.driving_period = driving_period if driving_period is not None else refractory_period * 2
 
         # Other parameters
         self.time_steps_elapsed = 0
