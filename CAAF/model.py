@@ -1,94 +1,20 @@
 import numpy as np
 from numba import jit
+from CAAF.base import Base
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 
-class Heart(object):
+class Heart(Base):
     """
     Heart object contains the state, structure, and history of the cellular automaton lattice.
     Contains method to run a simulation.
     """
 
     def __init__(self, row_size=100, col_size=100, refractory_period=100, driving_period=None, prob_con=1, prob_def=0,
-                 prob_not_fire=0.05,
-                 ):
+                 prob_not_fire=0.05):
 
-        # Parameters relating to structure of the grid
-        self.prob_con = prob_con
-        self.prob_def = prob_def
-        self.prob_not_fire = prob_not_fire
-        self.row_size = row_size
-        self.col_size = col_size
-
-        # Parameters relating to dynamics of grid
-        self.refractory_period = refractory_period
-        if driving_period is None:
-            self.driving_period = self.refractory_period * 2
-        else:
-            self.driving_period = driving_period
-
-        # Other parameters
-        self.time_steps_elapsed = 0
-        self.num_active_cells = np.array([], dtype=np.uint64)
-
-        # Initialise grid
-        self.state = self._initialise_state()
-        self.connections = self._initialise_connections()
-        self.defects = self._initialise_defects()
-
-    def _initialise_state(self):
-        state = np.zeros((self.row_size, self.col_size), dtype=np.uint16)
-        return state
-
-    def _initialise_connections(self):
-        """
-        Returns a random array specifying whether a cell is connected to each of its four neighbours.
-        """
-        connections = np.random.choice([0, 1], size=(self.row_size, self.col_size, 4),
-                                       p=[1 - self.prob_con, self.prob_con]).astype(np.bool_)
-        connections[:, :, 1] = 1  # Represents eastern/right connection
-        connections[:, :, 3] = 1  # Represents western/left connection
-        return connections
-
-    def _initialise_defects(self):
-        """
-        Returns a random array specifying which cells are defects.
-        """
-        return np.random.choice([0, (1 - self.prob_not_fire)], size=(self.row_size, self.col_size),
-                                p=[1 - self.prob_def, self.prob_def])
-
-    def update(self, num_iters=1, plot=False):
-        """
-        Calls optimised function to update the grid
-
-        Parameters
-        ----------
-        num_iters : int
-            The number of iterations to run a simulation for.
-        plot : bool
-            Flag to toggle whether a simulation is recorded and output as a .mp4 file.
-
-        Returns
-        -------
-        None
-
-        """
-        assert num_iters > 0, \
-            'Number of iterations, num_iters, must be postive. num_iters was set to {0}'.format(num_iters)
-
-        parameters = {'connections': self.connections,
-                      'defects': self.defects,
-                      'row_size': self.row_size,
-                      'col_size': self.col_size,
-                      'refractory_period': self.refractory_period,
-                      'driving_period': self.driving_period}
-
-        if plot:
-            self._run_sim_plot(num_iters=num_iters, parameters=parameters)
-        else:
-            self._run_sim(num_iters=num_iters, parameters=parameters)
-        return None
+        super(Heart, self).__init__(row_size, col_size, refractory_period, driving_period, prob_con, prob_def, prob_not_fire)
 
     def _run_sim(self, num_iters, parameters):
         num_active_cells = np.zeros(num_iters, dtype=np.uint64)
@@ -100,25 +26,25 @@ class Heart(object):
         return None
 
     def _run_sim_plot(self, num_iters, parameters):
-        ims = []
+        images = []
         fig, ax = plt.subplots(figsize=[5, 5])
         im = ax.imshow(self.state)
-        ims.append([im])
+        images.append([im])
         num_active_cells = np.zeros(num_iters, dtype=np.uint64)
         for t in range(num_iters):
             self.state = update_grid(time_step=self.time_steps_elapsed, state=self.state, **parameters)
             self.time_steps_elapsed += 1
             num_active_cells[t] = np.sum(self.state[:, 1:-1] == 1)
             im = ax.imshow(self.state, animated=True, cmap='gray', vmin=0, vmax=self.refractory_period)
-            ims.append([im])
-        ani = animation.ArtistAnimation(fig, ims, interval=20, blit=True, repeat_delay=1000)
+            images.append([im])
+        ani = animation.ArtistAnimation(fig, images, interval=20, blit=True, repeat_delay=1000)
         ani.save('./figures/animated_simulation.mp4')
         self.num_active_cells = np.r_[self.num_active_cells, num_active_cells]
         return None
 
 
-# Update rule
-@jit(nopython=True)
+# Update rule - optimised using Numba
+@jit(nopython=True, cache=True)
 def update_grid(state, connections, defects, row_size, col_size, refractory_period, driving_period, time_step):
     """
 
