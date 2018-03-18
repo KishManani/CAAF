@@ -49,8 +49,7 @@ class Base(object):
         """
         Returns a random array specifying which cells are defects.
         """
-        return np.random.choice([0, (1 - self.prob_not_fire)], size=(self.row_size, self.col_size),
-                                p=[1 - self.prob_def, self.prob_def])
+        return np.random.choice([0, (1 - self.prob_not_fire)], size=(self.row_size, self.col_size), p=[1 - self.prob_def, self.prob_def])
 
     def update(self, num_iters=1, plot=False):
         """
