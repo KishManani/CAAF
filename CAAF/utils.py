@@ -3,7 +3,6 @@ import time
 
 def timefunc(f):
     """
-
     Parameters
     ----------
     f : function
@@ -13,7 +12,6 @@ def timefunc(f):
     -------
     f_timed : function
         Decorated function which now prints the time it took to execute.
-
     """
 
     def f_timed(*args, **kwargs):

@@ -21,6 +21,6 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
-    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    packages=find_packages(exclude=['docs', 'tests']),
     install_requires=['numpy', 'matplotlib', 'numba']
 )
