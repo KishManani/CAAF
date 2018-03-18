@@ -62,9 +62,7 @@ class Base(object):
         raise NotImplementedError('Update method should be implemented in a subclass')
 
     def __repr__(self):
-        parameters = {'connections': self.connections,
-                      'defects': self.defects,
-                      'row_size': self.row_size,
+        parameters = {'row_size': self.row_size,
                       'col_size': self.col_size,
                       'refractory_period': self.refractory_period,
                       'driving_period': self.driving_period}
