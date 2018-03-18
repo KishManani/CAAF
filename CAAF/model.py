@@ -16,6 +16,38 @@ class Heart(Base):
 
         super(Heart, self).__init__(row_size, col_size, refractory_period, driving_period, prob_con, prob_def, prob_not_fire)
 
+    def update(self, num_iters=1, plot=False):
+        """
+        Runs a simulation by iteratively updating the state using a set of rules.
+
+        Parameters
+        ----------
+        num_iters : int
+            The number of iterations to run a simulation for.
+        plot : bool
+            Flag to toggle whether a simulation is recorded and output as a .mp4 file.
+
+        Returns
+        -------
+        None
+
+        """
+        assert num_iters > 0, \
+            'Number of iterations, `num_iters`, must be postive. num_iters was set to {0}'.format(num_iters)
+
+        parameters = {'connections': self.connections,
+                      'defects': self.defects,
+                      'row_size': self.row_size,
+                      'col_size': self.col_size,
+                      'refractory_period': self.refractory_period,
+                      'driving_period': self.driving_period}
+
+        if plot:
+            self._run_sim_plot(num_iters=num_iters, parameters=parameters)
+        else:
+            self._run_sim(num_iters=num_iters, parameters=parameters)
+        return None
+
     def _run_sim(self, num_iters, parameters):
         num_active_cells = np.zeros(num_iters, dtype=np.uint64)
         for t in range(num_iters):
