@@ -16,10 +16,14 @@ Git clone to a local directory:
 
     git clone https://github.com/KishManani/CAAF.git
 
-Change to CAAF directory and install directly from the source code:
+Change to CAAF directory and Create a virtual enviornment. For example:
 
     cd CAAF
-    python setup.py install
+    pyenv virtualenv 3.7.1 caaf & pyenv local caaf
+
+Install directly from the source code:
+
+    pip install -e .
 
 # Requirements
 CAAF requires the following to run:
