@@ -7,14 +7,30 @@ import matplotlib.animation as animation
 
 class Heart(Base):
     """
-    Heart object contains the state, structure, and history of the cellular automaton lattice.
-    Contains method to run a simulation.
+    Heart object contains the state, structure, and history of the cellular
+    automaton lattice. Contains method to run a simulation.
     """
 
-    def __init__(self, row_size=100, col_size=100, refractory_period=100, driving_period=None, prob_con=1, prob_def=0,
-                 prob_not_fire=0.05):
+    def __init__(
+        self,
+        row_size=100,
+        col_size=100,
+        refractory_period=100,
+        driving_period=None,
+        prob_con=1,
+        prob_def=0,
+        prob_not_fire=0.05,
+    ):
 
-        super(Heart, self).__init__(row_size, col_size, refractory_period, driving_period, prob_con, prob_def, prob_not_fire)
+        super(Heart, self).__init__(
+            row_size,
+            col_size,
+            refractory_period,
+            driving_period,
+            prob_con,
+            prob_def,
+            prob_not_fire,
+        )
 
     def update(self, num_iters=1, plot=False):
         """
@@ -32,15 +48,18 @@ class Heart(Base):
         None
 
         """
-        assert num_iters > 0, \
-            'Number of iterations, `num_iters`, must be postive. num_iters was set to {0}'.format(num_iters)
+        assert (
+            num_iters > 0
+        ), f"Number of iterations must be postive, is set to {num_iters}"
 
-        parameters = {'connections': self.connections,
-                      'defects': self.defects,
-                      'row_size': self.row_size,
-                      'col_size': self.col_size,
-                      'refractory_period': self.refractory_period,
-                      'driving_period': self.driving_period}
+        parameters = {
+            "connections": self.connections,
+            "defects": self.defects,
+            "row_size": self.row_size,
+            "col_size": self.col_size,
+            "refractory_period": self.refractory_period,
+            "driving_period": self.driving_period,
+        }
 
         if plot:
             self._run_sim_plot(num_iters=num_iters, parameters=parameters)
@@ -51,7 +70,9 @@ class Heart(Base):
     def _run_sim(self, num_iters, parameters):
         num_active_cells = np.zeros(num_iters, dtype=np.uint64)
         for t in range(num_iters):
-            self.state = update_grid(time_step=self.time_steps_elapsed, state=self.state, **parameters)
+            self.state = update_grid(
+                time_step=self.time_steps_elapsed, state=self.state, **parameters
+            )
             self.time_steps_elapsed += 1
             num_active_cells[t] = np.sum(self.state[:, 1:-1] == 1)
         self.num_active_cells = np.r_[self.num_active_cells, num_active_cells]
@@ -64,20 +85,39 @@ class Heart(Base):
         images.append([im])
         num_active_cells = np.zeros(num_iters, dtype=np.uint64)
         for t in range(num_iters):
-            self.state = update_grid(time_step=self.time_steps_elapsed, state=self.state, **parameters)
+            self.state = update_grid(
+                time_step=self.time_steps_elapsed, state=self.state, **parameters
+            )
             self.time_steps_elapsed += 1
             num_active_cells[t] = np.sum(self.state[:, 1:-1] == 1)
-            im = ax.imshow(self.state, animated=True, cmap='gray', vmin=0, vmax=self.refractory_period)
+            im = ax.imshow(
+                self.state,
+                animated=True,
+                cmap="gray",
+                vmin=0,
+                vmax=self.refractory_period,
+            )
             images.append([im])
-        ani = animation.ArtistAnimation(fig, images, interval=20, blit=True, repeat_delay=1000)
-        ani.save('./figures/animated_simulation.mp4')
+        ani = animation.ArtistAnimation(
+            fig, images, interval=20, blit=True, repeat_delay=1000
+        )
+        ani.save("./figures/animated_simulation.mp4")
         self.num_active_cells = np.r_[self.num_active_cells, num_active_cells]
         return None
 
 
 # Update rule - optimised using Numba
 @jit(nopython=True, cache=True)
-def update_grid(state, connections, defects, row_size, col_size, refractory_period, driving_period, time_step):
+def update_grid(
+    state,
+    connections,
+    defects,
+    row_size,
+    col_size,
+    refractory_period,
+    driving_period,
+    time_step,
+):
     """
 
     Parameters
