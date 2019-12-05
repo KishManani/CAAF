@@ -16,7 +16,7 @@ Git clone to a local directory:
 
     git clone https://github.com/KishManani/CAAF.git
 
-Change to CAAF directory and Create a virtual enviornment. For example:
+Change to CAAF directory and create a virtual enviornment. For example:
 
     cd CAAF
     pyenv virtualenv 3.7.1 caaf & pyenv local caaf

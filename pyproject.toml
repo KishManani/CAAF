@@ -1,0 +1,5 @@
+[tool.black]
+line-length = 88
+safe = true
+skip-string-normalization = false
+target_version = ['py37']

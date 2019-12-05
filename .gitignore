@@ -111,3 +111,6 @@ venv.bak/
 # Figures and videos
 *.png
 *.mp4
+
+# vscode
+.vscode*
