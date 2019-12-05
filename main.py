@@ -7,10 +7,13 @@ python main.py --num_iters 100 --plot 1
 Example use case without animated output:
 python main.py --num_iters 100 --plot 0
 """
-import time
-import matplotlib.pyplot as plt
-import CAAF.model as model
 import argparse
+import os
+import time
+
+import matplotlib.pyplot as plt
+
+import CAAF.model as model
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -45,6 +48,7 @@ parameters = {
 if __name__ == "__main__":
 
     heart = model.Heart(**parameters)
+    os.makedirs('figures', exist_ok=True)
 
     start_time = time.time()
     heart.update(num_iters=num_iters, plot=plot)
