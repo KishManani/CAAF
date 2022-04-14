@@ -38,14 +38,14 @@ A simulation can be run conveniently form the command line:
 
     python main.py --num_iters 100 --plot 1
 
-where the 'num_iters' parameter in the command line to set the number of iterations
-the simulation should run for. Set the 'plot' parameter to 1 to record the simulation
+where the `num_iters` parameter in the command line to set the number of iterations
+the simulation should run for. Set the `plot` parameter to 1 to record the simulation
 as a .mp4 file in the figures subdirectory. A default set of model parameters are set in main.py.
 
 # Usage
-The model has been implemented as a class called Heart. Heart objects contain
-the structure of the CA lattice, methods to create the lattice and run the simulations,
-and stores the results of running a simulation.
+The model has been implemented as a class called Heart. Heart objects contain:
+the structure of the CA lattice, methods to create the lattice, methods to run the simulation,
+and methods to stores the results of a simulation.
 
     from CAAF import model
     heart = model.Heart()
